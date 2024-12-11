@@ -76,29 +76,48 @@ const Swap = () => {
   };
 
   return (
-    <div style={{ textAlign: 'center', padding: '20px' }}>
-      <h2>Swap Tokens</h2>
-      <button onClick={connectWallet} style={{ padding: '5px 10px', marginBottom: '10px' }}>
+    <div style={{ textAlign: 'center', padding: '20px', fontFamily: 'Arial, sans-serif', backgroundColor: '#f9f9f9', borderRadius: '10px', maxWidth: '400px', margin: '30px auto', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
+      <h2 style={{ color: '#333', marginBottom: '20px' }}>Swap Tokens</h2>
+      <button 
+        onClick={connectWallet} 
+        style={{ padding: '10px 20px', marginBottom: '20px', backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer', fontSize: '16px' }}
+      >
         {account ? `Connected: ${account.slice(0, 6)}...${account.slice(-4)}` : 'Connect Wallet'}
       </button>
-      <div>
+      <div style={{ marginBottom: '20px' }}>
         <input
           type="text"
           placeholder="Amount In"
           value={amountIn}
           onChange={(e) => setAmountIn(e.target.value)}
+          style={{ padding: '10px', marginRight: '10px', width: 'calc(100% - 90px)', border: '1px solid #ccc', borderRadius: '5px' }}
         />
-        <select value={tokenIn} onChange={(e) => setTokenIn(e.target.value)}>
-          <option value="ETH">ETH</option>
-          <option value="USDT">USDT</option>
-        </select>
-        <span>→</span>
-        <select value={tokenOut} onChange={(e) => setTokenOut(e.target.value)}>
+        <select 
+          value={tokenIn} 
+          onChange={(e) => setTokenIn(e.target.value)}
+          style={{ padding: '10px', border: '1px solid #ccc', borderRadius: '5px' }}
+        >
           <option value="ETH">ETH</option>
           <option value="USDT">USDT</option>
         </select>
       </div>
-      <button onClick={swapTokens}>Swap</button>
+      <div style={{ marginBottom: '20px' }}>
+        <span style={{ fontSize: '24px', color: '#666' }}>→</span>
+        <select 
+          value={tokenOut} 
+          onChange={(e) => setTokenOut(e.target.value)}
+          style={{ padding: '10px', border: '1px solid #ccc', borderRadius: '5px', marginLeft: '10px' }}
+        >
+          <option value="ETH">ETH</option>
+          <option value="USDT">USDT</option>
+        </select>
+      </div>
+      <button 
+        onClick={swapTokens} 
+        style={{ padding: '10px 20px', backgroundColor: '#007BFF', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer', fontSize: '16px' }}
+      >
+        Swap
+      </button>
     </div>
   );
 };
