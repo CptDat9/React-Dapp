@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserProvider } from "ethers";
+import { BrowserProvider } from "ethers"; 
 
 const ConnectWallet = ({ setAddress, setProvider }) => {
   const connectWallet = async () => {
@@ -9,8 +9,8 @@ const ConnectWallet = ({ setAddress, setProvider }) => {
         await provider.send("eth_requestAccounts", []); 
         const signer = await provider.getSigner(); 
         const account = await signer.getAddress(); 
-        setAddress(account); // Cập nhật địa chỉ ví trong state
-        setProvider(provider);
+        setAddress(account);  // cap nhat trong state
+        setProvider(provider); 
         alert(`Connected: ${account}`);
       } catch (err) {
         console.error("Connection error:", err);
