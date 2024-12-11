@@ -1,5 +1,5 @@
 const getPoolBalances = async (pairAddress) => {
-    const [signer] = await ethers.getSigners();  // Lấy signer từ ethers
+    const [signer] = await ethers.getSigners();  
   
     const pairABI = [{
         "inputs": [],
@@ -656,17 +656,15 @@ const getPoolBalances = async (pairAddress) => {
         ],
         "stateMutability": "nonpayable",
         "type": "function"
-      }]; // ABI của UniswapV2Pair
+      }]; 
       const pairContract = new ethers.Contract(pairAddress, pairABI, signer);
 
-      // Lấy số dư của các token trong cặp
       const [reserve0, reserve1] = await pairContract.getReserves();
     console.log("Pool Balances:");
     console.log("Token A (ETH) - Raw value: ", reserve0.toString());
     console.log("Token B (USDT) - Raw value: ", reserve1.toString());
   };
   
-  // Địa chỉ cặp (pair) lấy từ hàm createPair
-  const pairAddress = "0x70caf53Cd0f9dd6ec6cd796fAa090F7Bf9AE6a33"; // Địa chỉ cặp (pair)
+  const pairAddress = "0x70caf53Cd0f9dd6ec6cd796fAa090F7Bf9AE6a33";
   getPoolBalances(pairAddress);
   
