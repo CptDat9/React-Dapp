@@ -3,6 +3,7 @@ import { BrowserProvider, Contract  } from 'ethers';
 import UniswapV2Router02 from '../abis/UniswapV2Router02.json';
 import UniswapV2Pair from '../abis/UniswapV2Pair.json';
 import ERC20 from '../abis/ERC20.json';
+const BN = require('bn.js');
 const routerAddress = "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9";
 const PAIR_ADDRESS = "0x70caf53Cd0f9dd6ec6cd796fAa090F7Bf9AE6a33";
 const ETH_ADDRESS = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
@@ -33,67 +34,67 @@ const Liquidity = () => {
   const getPoolReserves = async () => {
     const provider = new BrowserProvider(window.ethereum);
     const signer = await provider.getSigner();
-
+  
     try {
       const pairContract = new Contract(PAIR_ADDRESS, UniswapV2Pair, signer);
       const reserves = await pairContract.getReserves();
       const token0 = await pairContract.token0();
       const token1 = await pairContract.token1();
-
+  
       const formattedReserves = {
         [token0]: reserves[0].toString(),
         [token1]: reserves[1].toString(),
       };
-
+  
       setReserves(formattedReserves);
       alert('Loaded pool reserves successfully!');
     } catch (err) {
-      console.error(err);
+      console.error('Error fetching pool reserves:', err.message);
       alert('Failed to load pool reserves.');
     }
   };
+  
 
 
   const addLiquidity = async () => {
     if (!account) return alert('Please connect your wallet first!');
     if (!amountA || !amountB) return alert('Please enter valid amounts.');
-  
+
     const provider = new BrowserProvider(window.ethereum);
     const signer = await provider.getSigner();
-  
+
     try {
-      const routerContract = new Contract(routerAddress, UniswapV2Router02, signer);
-      const usdtContract = new Contract(USDT_ADDRESS, ERC20, signer);
-  
-      const allowance = await usdtContract.allowance(account, routerAddress);
-      const amountBUSDT = amountB.toString();
-  
-      if (allowance.lt(amountBUSDT)) {
-        const approveTx = await usdtContract.approve(routerAddress, amountBUSDT);
-        await approveTx.wait(); 
-      }
-  
-      const deadline = Math.floor(Date.now() / 1000) + 60 * 10; // 10 phuts
-  
-      const tx = await routerContract.addLiquidity(
-        ETH_ADDRESS,
-        USDT_ADDRESS, 
-        amountA.toString(), 
-        amountBUSDT,
-        0, 
-        0, 
-        PAIR_ADDRESS, 
-        deadline  
-      );
-  
-      await tx.wait(); 
-      alert('Liquidity added successfully to the pair address!');
+        const routerContract = new Contract(routerAddress, UniswapV2Router02, signer);
+        const usdtContract = new Contract(USDT_ADDRESS, ERC20, signer);
+
+        const allowance = new BN(await usdtContract.allowance(account, routerAddress));
+        const amountBUSDT = new BN(amountB); 
+
+        if (allowance.lt(amountBUSDT)) {
+            const approveTx = await usdtContract.approve(routerAddress, amountBUSDT.toString()); 
+            await approveTx.wait();
+        }
+
+        const deadline = Math.floor(Date.now() / 1000) + 60 * 10; 
+
+        const tx = await routerContract.addLiquidity(
+            ETH_ADDRESS,
+            USDT_ADDRESS,
+            amountA.toString(),
+            amountBUSDT.toString(),
+            0,
+            0,
+            PAIR_ADDRESS,
+            deadline
+        );
+
+        await tx.wait();
+        alert('Liquidity added successfully to the pair address!');
     } catch (err) {
-      console.error(err);
-      alert('Failed to add liquidity.');
+        console.error(err);
+        alert('Failed to add liquidity.');
     }
-  };
-  
+};
   const removeLiquidity = async () => {
     if (!account) return alert('Please connect your wallet first!');
     if (!removeAmount || isNaN(removeAmount) || parseFloat(removeAmount) <= 0) {
