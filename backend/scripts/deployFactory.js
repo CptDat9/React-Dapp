@@ -6,7 +6,7 @@ async function main() {
 
     // Deploy Factory contract
     const Factory = await ethers.getContractFactory("UniswapV2Factory");
-    const factory = await Factory.deploy(deployer.address); // Set feeToSetter as deployer
+    const factory = await Factory.deploy(deployer.address); 
     await factory.waitForDeployment();
     console.log(`UniswapV2Factory deployed to: ${factory.target}`);
 }
