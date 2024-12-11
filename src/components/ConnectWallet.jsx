@@ -1,16 +1,16 @@
 import React from "react";
-import { BrowserProvider } from "ethers"; // Import BrowserProvider chính xác từ ethers
+import { BrowserProvider } from "ethers";
 
 const ConnectWallet = ({ setAddress, setProvider }) => {
   const connectWallet = async () => {
     if (window.ethereum) {
       try {
-        const provider = new BrowserProvider(window.ethereum); // Sử dụng BrowserProvider
-        await provider.send("eth_requestAccounts", []); // Yêu cầu người dùng kết nối tài khoản
-        const signer = await provider.getSigner(); // Lấy signer từ provider
-        const account = await signer.getAddress(); // Lấy địa chỉ ví
+        const provider = new BrowserProvider(window.ethereum); 
+        await provider.send("eth_requestAccounts", []); 
+        const signer = await provider.getSigner(); 
+        const account = await signer.getAddress(); 
         setAddress(account); // Cập nhật địa chỉ ví trong state
-        setProvider(provider); // Cập nhật provider trong state
+        setProvider(provider);
         alert(`Connected: ${account}`);
       } catch (err) {
         console.error("Connection error:", err);
