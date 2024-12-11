@@ -4,10 +4,10 @@ const { ethers } = require("hardhat");
 const addLiquidity = async () => {
 
 
-    const [signer] = await ethers.getSigners();  // Lấy signer từ ethers
+    const [signer] = await ethers.getSigners();  
   
-    const routerAddress = "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9"; // Địa chỉ UniswapV2Router02
-    const factoryAddress = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"; // Địa chỉ Factory
+    const routerAddress = "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9"; 
+    const factoryAddress = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"; 
 
     const routerABI = [{
         "inputs": [
@@ -1184,13 +1184,10 @@ const addLiquidity = async () => {
       // Tạo cặp token
       const pair = new ethers.Contract(pairAddress, factoryABI, signer);
   
-      // Lấy thông tin số dư trong pool
    
-      // Thêm thanh khoản vào pool (cần có token và ETH)
 
-      // Chuyển đổi số lượng ETH và USDT sang đúng đơn vị
-      const amountETH = ethers.parseUnits("100", 18);  // 100 ETH (18 chữ số thập phân)
-      const amountUSDT = ethers.parseUnits("1000", 6); // 1000 USDT (6 chữ số thập phân)
+      const amountETH = ethers.parseUnits("100", 18);  
+      const amountUSDT = ethers.parseUnits("1000", 6); 
   
       try {
           const tx = await router.addLiquidity(
@@ -1198,10 +1195,10 @@ const addLiquidity = async () => {
               USDTAddress,
               amountETH,
               amountUSDT,
-              amountETH,  // Amount minimum
-              amountUSDT,  // Amount minimum
-              signer.address,  // Địa chỉ nhận
-              Math.floor(Date.now() / 1000) + 60 * 10  // Deadline 10 phút
+              amountETH,  /
+              amountUSDT,  
+              signer.address, 
+              Math.floor(Date.now() / 1000) + 60 * 10 
           );
           const receipt = await tx.wait();
           console.log("Liquidity added successfully!");
