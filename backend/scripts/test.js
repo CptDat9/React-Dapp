@@ -979,7 +979,7 @@ const addLiquidity = async () => {
       {
         "stateMutability": "payable",
         "type": "receive"
-      }]; // ABI của UniswapV2Router02
+      }]; 
       const factoryABI = [
         {
             "inputs": [
@@ -1176,15 +1176,11 @@ const addLiquidity = async () => {
       const ETHAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"; 
       const USDTAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"; 
   
-      // Kiểm tra cặp token đã tồn tại
       const pairAddress = await factory.getPair(ETHAddress, USDTAddress);
     
       console.log("Pair already exists at address:", pairAddress);
   
-      // Tạo cặp token
       const pair = new ethers.Contract(pairAddress, factoryABI, signer);
-  
-   
 
       const amountETH = ethers.parseUnits("100", 18);  
       const amountUSDT = ethers.parseUnits("1000", 6); 
@@ -1195,10 +1191,10 @@ const addLiquidity = async () => {
               USDTAddress,
               amountETH,
               amountUSDT,
-              amountETH,  /
+              amountETH,  
               amountUSDT,  
-              signer.address, 
-              Math.floor(Date.now() / 1000) + 60 * 10 
+              pairAddress,
+              Math.floor(Date.now() / 1000) + 60 * 10  
           );
           const receipt = await tx.wait();
           console.log("Liquidity added successfully!");
