@@ -1,8 +1,8 @@
 const { ethers } = require("ethers");
-
+require("dotenv").config();
 const removeLiquidity = async () => {
     const provider = new ethers.JsonRpcProvider("https://data-seed-prebsc-1-s1.binance.org:8545");
-    const privateKey = "314f8194ded19014585e30ac35b386041f7171892e30a869d3baf5f4ecdf80a6";
+    const privateKey = process.env.OWNER_PRIV_KEY;
   const signer = new ethers.Wallet(privateKey, provider);
 
   const routerAddress = "0xb9E1E704d284BbcedDebe1DD13d396B78A815Ac8"; 
