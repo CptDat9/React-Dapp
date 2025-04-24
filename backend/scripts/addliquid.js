@@ -1,8 +1,8 @@
 const { ethers } = require("ethers");
-
+require("dotenv").config();
 const addLiquidity = async () => {
   const provider = new ethers.JsonRpcProvider("https://data-seed-prebsc-1-s1.binance.org:8545");
-  const privateKey = "314f8194ded19014585e30ac35b386041f7171892e30a869d3baf5f4ecdf80a6";
+  const privateKey = process.env.OWNER_PRIV_KEY;
   const signer = new ethers.Wallet(privateKey, provider);
 
   const routerAddress = "0xb9E1E704d284BbcedDebe1DD13d396B78A815Ac8"; 
@@ -1298,20 +1298,18 @@ const addLiquidity = async () => {
 
   const ethAmount = ethers.parseUnits("10", 18);
   const usdtAmount = ethers.parseUnits("1000", 6); 
-  const minAmountETH = ethers.parseUnits("9", 18); // Tối thiểu 9 ETH
-  const minAmountUSDT = ethers.parseUnits("900", 6); // Tối thiểu 900 USDT
-  const deadline = Math.floor(Date.now() / 1000) + 600; // Hạn là 10 phút
+  const minAmountETH = ethers.parseUnits("9", 18); // 9 ETH
+  const minAmountUSDT = ethers.parseUnits("900", 6); // 900 USDT
+  const deadline = Math.floor(Date.now() / 1000) + 600; // 10 phút
 
   console.log("Checking balances and allowances...");
 
-  // Kiểm tra số dư
   const ethBalance = await ethContract.balanceOf(signer.address);
   const usdtBalance = await usdtContract.balanceOf(signer.address);
   if (ethBalance<ethAmount || usdtBalance< usdtAmount) {
     throw new Error("Insufficient token balance.");
   }
 
-  // Kiểm tra và approve nếu cần
   const ethAllowance = await ethContract.allowance(signer.address, routerAddress);
   const usdtAllowance = await usdtContract.allowance(signer.address, routerAddress);
 
