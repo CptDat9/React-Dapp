@@ -13,7 +13,7 @@ function App() {
       {/* Header Section */}
       <header style={styles.header}>
         <h1 style={styles.title}>CD Protocol</h1>
-        <p style={styles.subtitle}>Decentralized Finance </p>
+        <p style={styles.subtitle}>Team Security Research </p>
       </header>
 
       {/* Main Content */}
@@ -32,7 +32,7 @@ function App() {
 
       {/* Footer */}
       <footer style={styles.footer}>
-        <p>© 2024 CD Protocol. All rights reserved.</p>
+        <p>© 2024 CD Protocol. All rights reserved (Security Research).</p>
       </footer>
     </div>
   );
